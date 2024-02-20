@@ -1,0 +1,32 @@
+---
+- name: Add users
+  remote_user: rao27
+    name: "{{ item.name }}"
+    state: present
+    shell: "{{ item.shell | default('/bin/bash') }}"
+  loop: "{{ users_to_create }}"
+  when: item.name not in existing_users | map(attribute='name') | list
+
+- name: Remove users
+  remote_user: rao27
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ users_to_remove }}"
+  when: item in existing_users | map(attribute='name') | list
+
+- name: Add users to groups
+  remote_user: rao27
+    name: "{{ item.user }}"
+    groups: "{{ item.groups }}"
+    append: yes
+  loop: "{{ users_to_groups }}"
+  when: item.user in existing_users | map(attribute='name') | list
+
+- name: Remove users from groups
+  remote_user: rao27
+    name: "{{ item.user }}"
+    groups: "{{ item.groups }}"
+    state: absent
+  loop: "{{ users_from_groups }}"
+  when: item.user in existing_users | map(attribute='name') | list
+

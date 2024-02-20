@@ -1,0 +1,27 @@
+---
+users_to_create:
+  - name: user1
+    uid: 1001
+    groups: ['group1']
+  - name: user2
+    uid: 1008
+    groups: ['group2']
+  - name: user3
+    uid: 1003
+    groups: ['group3']
+users_to_remove:
+  - name: user3
+    uid: 1003
+groups_to_create:
+  - name: group1
+  - name: group2
+  - name: group3
+  - name: group4
+groups_to_remove:
+  - name: group4
+users_to_add_to_groups:
+  - name: user1
+    groups: ['group2']
+users_to_remove_from_groups:
+  - name: user3
+    groups: ['group3']
