@@ -14,7 +14,7 @@
     - name: Copy HTML page to remote host
       copy:
         src: /home/ranjith27/webs.html
-        dest: /home/rao27/inde.html
+        dest: /var/www/html/inde.html
       become: yes
 
     - name: Ensure Nginx service is running and enabled
