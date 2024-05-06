@@ -177,67 +177,67 @@ resource "google_compute_firewall" "rules" {
   source_ranges = ["35.235.240.0/20"]
 }
 
-# #Creating IAP SSH permissions for TunnelResource accessor for the test instance
+#Creating IAP SSH permissions for TunnelResource accessor for the test instance
 
-# resource "google_project_iam_member" "project" {
-#   project = var.project_id
-#   role    = "roles/iap.tunnelResourceAccessor"
-#   member  = "serviceAccount:1071339700614-compute@developer.gserviceaccount.com"
-# }
+resource "google_project_iam_member" "project" {
+  project = var.project_id
+  role    = "roles/iap.tunnelResourceAccessor"
+  member  = "serviceAccount:174291680877-compute@developer.gserviceaccount.com"
+}
 
-# # cloud router for nat gateway
-# resource "google_compute_router" "router" {
-#   project = var.project_id
-#   name    = "nat-router"
-#   network = var.vpc_name
-#   region  = var.region
-# }
+# cloud router for nat gateway
+resource "google_compute_router" "router" {
+  project = var.project_id
+  name    = "nat-router"
+  network = var.vpc_name
+  region  = var.region
+}
 
-# #Nat Gateway with module
+#Nat Gateway with module
 
-# module "cloud-nat" {
-#   source     = "terraform-google-modules/cloud-nat/google"
-#   version    = "~> 1.2"
-#   project_id = var.project_id
-#   region     = var.region
-#   router     = google_compute_router.router.name
-#   name       = "nat-config"
+module "cloud-nat" {
+  source     = "terraform-google-modules/cloud-nat/google"
+  version    = "~> 1.2"
+  project_id = var.project_id
+  region     = var.region
+  router     = google_compute_router.router.name
+  name       = "nat-config"
 
-# }
+}
 
-# #Creation of Cloud SQL 
-# resource "google_sql_database" "main" {
-#   name     = var.db_name
-#   instance = google_sql_database_instance.main_primary.name
-# }
-# resource "google_sql_database_instance" "main_primary" {
-#   name             = var.db_instance_name
-#   database_version = var.db_version
-#   depends_on       = [google_service_networking_connection.private_vpc_connection]
-#   settings {
-#     tier              = "db-f1-micro"
-#     availability_type = "REGIONAL"
-#     disk_size         = 10  
-#     ip_configuration {
-#       ipv4_enabled    = false
-#       private_network = google_compute_address.my_internal_ip_addr.address
-#     }
-#   }
-# }
+#Creation of Cloud SQL 
+resource "google_sql_database" "main" {
+  name     = var.db_name
+  instance = google_sql_database_instance.main_primary.name
+}
+resource "google_sql_database_instance" "main_primary" {
+  name             = var.db_instance_name
+  database_version = var.db_version
+  depends_on       = [google_service_networking_connection.private_vpc_connection]
+  settings {
+    tier              = "db-f1-micro"
+    availability_type = "REGIONAL"
+    disk_size         = 10  
+    ip_configuration {
+      ipv4_enabled    = false
+      private_network = google_compute_address.my_internal_ip_addr.address
+    }
+  }
+}
 
-# #Configuring DB user
-# resource "google_sql_user" "db_user" {
-#   name     = var.user
-#   instance = google_sql_database_instance.main_primary.name
-#   password = var.password
-#   lifecycle {
-#       precondition {
-#         condition = google_sql_database_instance.main_primary.id != null
-#         error_message = "SQL instance is required to create a user"
-#       }
-#     }
-#     depends_on = [ google_sql_database_instance.main_primary]
-# }
+#Configuring DB user
+resource "google_sql_user" "db_user" {
+  name     = var.user
+  instance = google_sql_database_instance.main_primary.name
+  password = var.password
+  lifecycle {
+      precondition {
+        condition = google_sql_database_instance.main_primary.id != null
+        error_message = "SQL instance is required to create a user"
+      }
+    }
+    depends_on = [ google_sql_database_instance.main_primary]
+}
 
 
 

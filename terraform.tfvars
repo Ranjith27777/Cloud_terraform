@@ -1,4 +1,4 @@
-project_id              = "cloudopstraining04"
+project_id              = "april-proj"
 region                  = "asia-south2"
 location                = "asia-south2-a"
 vpc_name                = "wiki-vpc"
