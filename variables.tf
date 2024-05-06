@@ -1,0 +1,13 @@
+variable "project_id" {}
+variable "region" {}
+variable "location" {}
+variable "vpc_name" {}
+variable "subnet_name" {}
+variable "subnet_cidr" {}
+variable "kubernetes_cluster_name" {}
+variable "instance_name" {}
+variable "db_name" {}
+variable "db_instance_name" {}
+variable "db_version" {}
+variable "user" {}
+variable "password" {}

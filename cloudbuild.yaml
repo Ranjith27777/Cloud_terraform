@@ -1,0 +1,14 @@
+steps:  
+  - id: 'terraform init'
+    name: 'hashicorp/terraform:latest'
+    script: terraform init
+
+  - id: 'terraform plan'
+    name: 'hashicorp/terraform:latest'
+    script: terraform plan
+
+  - id: 'terraform apply'
+    name: 'hashicorp/terraform:latest'
+    script: terraform apply -auto-approve
+options:
+  logging: CLOUD_LOGGING_ONLY
