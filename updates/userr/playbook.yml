@@ -1,8 +1,0 @@
----
-- name: User Administration Playbook
-  hosts: client
-  remote_user: rao27
-  become: yes
-  roles:
-    - user_management
-
