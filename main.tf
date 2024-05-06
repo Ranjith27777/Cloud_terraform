@@ -220,7 +220,7 @@ resource "google_sql_database_instance" "main_primary" {
     disk_size         = 10  
     ip_configuration {
       ipv4_enabled    = false
-      private_network = google_compute_address.my_internal_ip_addr.address
+      private_network = google_compute_network.vpc.name
     }
   }
 }
